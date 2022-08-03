@@ -1,4 +1,6 @@
-const apiHost = "http://localhost:8080"
+import * as timeago from "timeago.js"
+
+const apiHost = import.meta.env.VITE_API_HOST
 
 let currentUser
 
