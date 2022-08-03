@@ -31,10 +31,28 @@ function addComment(comment, container) {
         )
     )
     if ('replies' in comment) {
+        element.querySelector(".reply").classList.remove("d-none")
+        element.querySelector(".reply").addEventListener("click", () => {
+            setReply(comment)
+        })
         const repliesContainer = element.querySelector(".replies")
         comment.replies.forEach((reply) => addComment(reply, repliesContainer))
     }
     container.prepend(element)
+}
+
+function setReply(comment) {
+    config.currentReplyComment = comment
+    const container = document.querySelector(".replying-to")
+    if (comment === null) {
+        container.classList.add("d-none")
+        return
+    }
+    container.querySelector("span").textContent = comment.user.name
+    container.classList.remove("d-none")
+    container.querySelector("a").addEventListener("click", () => {
+        setReply(null)
+    }, { once: true })
 }
 
 getRandomUser().then(setUser)
@@ -51,8 +69,17 @@ commentForm.addEventListener("submit", (event) => {
     if (contentInput.value === "") {
         return
     }
-    postComment({ content: contentInput.value }).then((comment) => {
-        addComment(comment)
+    const parentId = config.currentReplyComment?.id
+    postComment({
+        content: contentInput.value,
+        parentId
+    }).then((comment) => {
+        let container
+        if (parentId) {
+            setReply(null)
+            container = document.querySelector(`[data-comment-id="${parentId}"] .replies`)
+        }
+        addComment(comment, container)
         contentInput.value = ""
     })
 })

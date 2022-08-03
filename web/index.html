@@ -10,12 +10,21 @@
 </head>
 <body>
     <main class="container mt-5">
+        <div id="top"></div>
+
         <h3 class="mb-5">Discussion</h3>
 
         <form id="comment-form" class="mb-5 d-none">
             <div class="d-flex">
                 <img alt="Avatar" class="avatar">
-                <textarea class="form-control flex-grow-1 mx-3" rows="1" placeholder="Cats are better than dogs, or what are your thoughts?"></textarea>
+                <div class="flex-grow-1 mx-3">
+                    <textarea class="form-control" rows="1" placeholder="Cats are better than dogs, or what are your thoughts?"></textarea>
+                    <div class="replying-to text-secondary d-none">
+                        <a><strong>X</strong></a>
+                        Replying to:
+                        <span></span>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary align-self-start">
                     Comment
                 </button>
@@ -38,10 +47,8 @@
                             <div class="content"></div>
                             <div class="actions mt-2 d-flex">
                                 <div class="upvotes me-4"></div>
-                                <a className="reply">
-                                    <small class="text-decoration-none text-secondary">
-                                        Reply
-                                    </small>
+                                <a href="#top" class="reply text-decoration-none text-secondary d-none">
+                                    <small>Reply</small>
                                 </a>
                             </div>
                         </div>

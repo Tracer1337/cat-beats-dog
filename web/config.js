@@ -1,6 +1,7 @@
 const config = {
     apiHost: import.meta.env.VITE_API_HOST,
-    currentUser: null
+    currentUser: null,
+    currentReplyComment: null
 }
 
 export default config
