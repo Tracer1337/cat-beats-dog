@@ -1,8 +1,8 @@
-import { RequestHandler } from "express"
-import { prisma } from "./db"
+import { RequestHandler } from 'express'
+import { prisma } from './db'
 
 export const userMiddleware: RequestHandler = async (req, res, next) => {
-    let userId = req.headers["authorization"]
+    let userId = req.headers['authorization']
     if (!userId || Number.isNaN(parseInt(userId))) {
         res.sendStatus(401)
         return
