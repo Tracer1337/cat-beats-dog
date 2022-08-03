@@ -10,7 +10,8 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et'
+            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et',
+            createdAt: new Date('2022-07-20T12:00:00.000Z')
           }
         ]
       }
@@ -23,7 +24,8 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+            content: 'At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            createdAt: new Date('2022-07-26T18:30:00.000Z')
           }
         ]
       }
@@ -36,7 +38,8 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
+            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+            createdAt: new Date('2022-08-02T00:01:00.000Z')
           }
         ]
       }
