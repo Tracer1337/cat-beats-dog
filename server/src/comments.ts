@@ -11,15 +11,27 @@ router.get('/', async (_req, res) => {
             _count: {
                 select: { upvotes: true }
             },
-            user: true
+            user: true,
+            replies: {
+                include: {
+                    _count: {
+                        select: { upvotes: true }
+                    },
+                    user: true
+                }
+            }
         },
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        where: {
+            parentId: null
+        }
     })
     res.send(comments)
 })
 
 const CreateComment = z.object({
-    content: z.string().min(1).max(500)
+    content: z.string().min(1).max(500),
+    parentId: z.number().optional()
 })
 
 router.post('/', userMiddleware, async (req, res) => {
@@ -28,10 +40,24 @@ router.post('/', userMiddleware, async (req, res) => {
         res.status(400).send(parsed.error)
         return
     }
+    if (parsed.data.parentId) {
+        const parent = await prisma.comment.findFirst({
+            where: { id: parsed.data.parentId }
+        })
+        if (!parent) {
+            res.sendStatus(404)
+            return
+        }
+        if (parent.parentId !== null) {
+            res.sendStatus(409)
+            return
+        }
+    }
     const comment = await prisma.comment.create({
         data: {
             ...parsed.data,
-            userId: req.user.id
+            userId: req.user.id,
+            parentId: parsed.data.parentId
         },
         include: {
             _count: {
