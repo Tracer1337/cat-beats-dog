@@ -10,8 +10,12 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et',
+            content: 'Cats Are Easy to Take Care of',
             createdAt: new Date('2022-07-20T12:00:00.000Z')
+          },
+          {
+            content: 'No Destruction Inside and Outside the House',
+            createdAt: new Date('2022-07-17T12:00:00.000Z')
           }
         ]
       }
@@ -24,8 +28,12 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            content: 'Cats Are Low-Maintenance',
             createdAt: new Date('2022-07-26T18:30:00.000Z')
+          },
+          {
+            content: 'They Don\'t Need Much Space',
+            createdAt: new Date('2022-07-25T18:30:00.000Z')
           }
         ]
       }
@@ -38,12 +46,40 @@ const userData: Prisma.UserCreateInput[] = [
       createMany: {
         data: [
           {
-            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+            content: 'They Keep the House Clean',
             createdAt: new Date('2022-08-02T00:01:00.000Z')
           }
         ]
       }
     },
+  },
+  {
+    name: 'Bruno',
+    avatarUrl: 'https://i.pravatar.cc/150?img=70',
+    comments: {
+      createMany: {
+        data: [
+          {
+            content: 'They Can Take Care of Themselves',
+            createdAt: new Date('2022-08-03T00:06:00.000Z')
+          }
+        ]
+      }
+    }
+  },
+  {
+    name: 'Sunitha',
+    avatarUrl: 'https://i.pravatar.cc/150?img=35',
+    comments: {
+      createMany: {
+        data: [
+          {
+            content: 'I think you are all wrong and horses are the best',
+            createdAt: new Date('2022-07-22T00:12:00.000Z')
+          }
+        ]
+      }
+    }
   },
 ]
 
