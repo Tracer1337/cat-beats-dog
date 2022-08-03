@@ -19,7 +19,7 @@ router.get('/', async (_req, res) => {
 })
 
 const CreateComment = z.object({
-    content: z.string()
+    content: z.string().min(1).max(500)
 })
 
 router.post('/', userMiddleware, async (req, res) => {
@@ -32,6 +32,12 @@ router.post('/', userMiddleware, async (req, res) => {
         data: {
             ...parsed.data,
             userId: req.user.id
+        },
+        include: {
+            _count: {
+                select: { upvotes: true }
+            },
+            user: true
         }
     })
     res.send(comment)
@@ -69,9 +75,9 @@ router.post('/:id/upvote', userMiddleware, async (req, res) => {
         include: {
             _count: {
                 select: { upvotes: true }
-            }
-        },
-        where: { id: commentId }
+            },
+            user: true
+        }
     })
     res.send({ upvotes: newComment?._count.upvotes })
 })
