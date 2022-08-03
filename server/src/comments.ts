@@ -43,6 +43,23 @@ router.post('/', userMiddleware, async (req, res) => {
     res.send(comment)
 })
 
+router.get("/:id/upvotes", async (req, res) => {
+    const commentId = parseInt(req.params.id)
+    const comment = await prisma.comment.findFirst({
+        include: {
+            _count: {
+                select: { upvotes: true }
+            }
+        },
+        where: { id: commentId }
+    })
+    if (!comment) {
+        res.sendStatus(404)
+        return
+    }
+    res.send({ upvotes: comment?._count.upvotes })
+})
+
 router.post('/:id/upvote', userMiddleware, async (req, res) => {
     const commentId = parseInt(req.params.id)
     const comment = await prisma.comment.findFirst({
