@@ -11,9 +11,11 @@ function setUser(user) {
     document.querySelector("#comment-form img").src = config.currentUser.avatarUrl
 }
 
-function addComment(comment) {
+function addComment(comment, container) {
     const template = document.querySelector("#comment-template")
-    const container = document.querySelector("#comments")
+    if (!container) {
+        container = document.querySelector("#comments")
+    }
     const element = template.content.cloneNode(true)
     element.querySelector("div").dataset.commentId = comment.id
     element.querySelector(".avatar").src = comment.user.avatarUrl
@@ -28,6 +30,10 @@ function addComment(comment) {
             React.createElement(Upvotes, { comment })
         )
     )
+    if ('replies' in comment) {
+        const repliesContainer = element.querySelector(".replies")
+        comment.replies.forEach((reply) => addComment(reply, repliesContainer))
+    }
     container.prepend(element)
 }
 
