@@ -1,0 +1,12 @@
+{
+  "name": "cat-beats-dog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Tracer1337 <merlin.moelter@gmail.com>",
+  "license": "MIT",
+  "private": "true",
+  "workspaces": [
+    "server",
+    "web"
+  ]
+}
