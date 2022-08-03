@@ -10,7 +10,8 @@ router.get('/', async (_req, res) => {
         include: {
             _count: {
                 select: { upvotes: true }
-            }
+            },
+            user: true
         },
         orderBy: { createdAt: 'desc' }
     })

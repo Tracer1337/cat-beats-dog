@@ -1,0 +1,15 @@
+.container {
+    max-width: 800px;
+}
+
+.divider {
+    width: 100%;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.avatar {
+    border-radius: 50%;
+    align-self: flex-start;
+    width: 38px;
+    height: 38px;
+}
