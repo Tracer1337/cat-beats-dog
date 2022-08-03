@@ -77,7 +77,8 @@ router.post('/:id/upvote', userMiddleware, async (req, res) => {
                 select: { upvotes: true }
             },
             user: true
-        }
+        },
+        where: { id: commentId }
     })
     res.send({ upvotes: newComment?._count.upvotes })
 })
