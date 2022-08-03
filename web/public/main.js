@@ -8,23 +8,21 @@ function setUser(user) {
     document.querySelector("#comment-form img").src = user.avatarUrl
 }
 
-function setComments(comments) {
+function addComment(comment) {
     const template = document.querySelector("#comment-template")
     const container = document.querySelector("#comments")
-    comments.forEach((comment) => {
-        const element = template.content.cloneNode(true)
-        element.querySelector("div").dataset.commentId = comment.id
-        element.querySelector(".avatar").src = comment.user.avatarUrl
-        element.querySelector(".username").textContent = comment.user.name
-        element.querySelector(".creation-date").setAttribute("datetime", comment.createdAt)
-        element.querySelector(".content").textContent = comment.content
-        element.querySelector(".upvotes").textContent = comment._count.upvotes
-        element.querySelector(".upvote").addEventListener("click", () => {
-            upvote(comment)
-        })
-        timeago.render(element.querySelector(".creation-date"))
-        container.appendChild(element)
+    const element = template.content.cloneNode(true)
+    element.querySelector("div").dataset.commentId = comment.id
+    element.querySelector(".avatar").src = comment.user.avatarUrl
+    element.querySelector(".username").textContent = comment.user.name
+    element.querySelector(".creation-date").setAttribute("datetime", comment.createdAt)
+    element.querySelector(".content").textContent = comment.content
+    element.querySelector(".upvotes").textContent = comment._count.upvotes
+    element.querySelector(".upvote").addEventListener("click", () => {
+        upvote(comment)
     })
+    timeago.render(element.querySelector(".creation-date"))
+    container.prepend(element)
 }
 
 function upvote(comment) {
@@ -50,4 +48,29 @@ fetch(`${apiHost}/users/random`)
 
 fetch(`${apiHost}/comments`)
     .then((res) => res.json())
-    .then(setComments)
+    .then((comments) => comments.reverse().forEach((comment) => addComment(comment)))
+
+const commentForm = document.querySelector("#comment-form")
+
+commentForm.addEventListener("submit", (event) => {
+    event.preventDefault()
+    const contentInput = commentForm.querySelector("textarea")
+    if (contentInput.value === "") {
+        return
+    }
+    fetch(`${apiHost}/comments`, {
+        method: "POST",
+        headers: {
+            Authorization: currentUser.id,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content: contentInput.value
+        })
+    })
+        .then((res) => res.json())
+        .then((comment) => {
+            addComment(comment)
+            contentInput.value = ""
+        })
+})
