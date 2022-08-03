@@ -30,6 +30,11 @@ export async function postComment(data) {
     }
 }
 
+export async function getUpvotes(comment) {
+    const res = await fetch(`${config.apiHost}/comments/${comment.id}/upvotes`)
+    return res.json()
+}
+
 export async function upvote(comment) {
     try {
         const res = await fetch(

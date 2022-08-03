@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
-import { upvote } from "./api"
+import { getUpvotes, upvote } from "./api"
+
+const POLLING_INTERVAL = 10000 // 10s
 
 function Upvotes({ comment }) {
     const [upvotes, setUpvotes] = useState(comment._count.upvotes)
@@ -7,6 +9,17 @@ function Upvotes({ comment }) {
     useEffect(() => {
         setUpvotes(comment._count.upvotes)
     }, [comment])
+
+    useEffect(() => {
+        const update = async () => {
+            const result = await getUpvotes(comment)
+            setUpvotes(result.upvotes)
+        }
+        const interval = setInterval(update, POLLING_INTERVAL)
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
 
     const handleClick = async () => {
         const result = await upvote(comment)
