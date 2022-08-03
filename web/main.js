@@ -1,13 +1,14 @@
 import * as timeago from "timeago.js"
-
-const apiHost = import.meta.env.VITE_API_HOST
-
-let currentUser
+import React from "react"
+import ReactDOM from "react-dom/client"
+import config from "./config.js"
+import Upvotes from "./Upvotes"
+import { getComments, getRandomUser, postComment } from "./api"
 
 function setUser(user) {
-    currentUser = user
+    config.currentUser = user
     document.querySelector("#comment-form").classList.remove("d-none")
-    document.querySelector("#comment-form img").src = user.avatarUrl
+    document.querySelector("#comment-form img").src = config.currentUser.avatarUrl
 }
 
 function addComment(comment) {
@@ -19,38 +20,22 @@ function addComment(comment) {
     element.querySelector(".username").textContent = comment.user.name
     element.querySelector(".creation-date").setAttribute("datetime", comment.createdAt)
     element.querySelector(".content").textContent = comment.content
-    element.querySelector(".upvotes").textContent = comment._count.upvotes
-    element.querySelector(".upvote").addEventListener("click", () => {
-        upvote(comment)
-    })
     timeago.render(element.querySelector(".creation-date"))
+    ReactDOM.createRoot(element.querySelector(".upvotes")).render(
+        React.createElement(
+            React.StrictMode,
+            null,
+            React.createElement(Upvotes, { comment })
+        )
+    )
     container.prepend(element)
 }
 
-function upvote(comment) {
-    if (!currentUser) {
-        return
-    }
-    fetch(`${apiHost}/comments/${comment.id}/upvote`, {
-        method: "POST",
-        headers: {
-            Authorization: currentUser.id
-        }
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            document.querySelector(`[data-comment-id="${comment.id}"] .upvotes`).textContent = res.upvotes
-        })
-        .catch(() => alert("You have already upvoted this comment"))
-}
+getRandomUser().then(setUser)
 
-fetch(`${apiHost}/users/random`)
-    .then((res) => res.json())
-    .then(setUser)
-
-fetch(`${apiHost}/comments`)
-    .then((res) => res.json())
-    .then((comments) => comments.reverse().forEach((comment) => addComment(comment)))
+getComments().then((comments) =>
+    comments.reverse().forEach((comment) => addComment(comment))
+)
 
 const commentForm = document.querySelector("#comment-form")
 
@@ -60,19 +45,8 @@ commentForm.addEventListener("submit", (event) => {
     if (contentInput.value === "") {
         return
     }
-    fetch(`${apiHost}/comments`, {
-        method: "POST",
-        headers: {
-            Authorization: currentUser.id,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            content: contentInput.value
-        })
+    postComment({ content: contentInput.value }).then((comment) => {
+        addComment(comment)
+        contentInput.value = ""
     })
-        .then((res) => res.json())
-        .then((comment) => {
-            addComment(comment)
-            contentInput.value = ""
-        })
 })

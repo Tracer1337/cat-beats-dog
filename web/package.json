@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^2.0.0",
     "vite": "^3.0.4"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "timeago.js": "^4.0.2"
   }
 }

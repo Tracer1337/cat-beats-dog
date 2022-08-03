@@ -15,13 +15,17 @@ export async function postComment(data) {
         const res = await fetch(`${config.apiHost}/comments`, {
             method: "POST",
             headers: {
-                Authorization: user.currentUser.id,
+                Authorization: config.currentUser.id,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
         })
+        if (res.status !== 200) {
+            throw new Error()
+        }
         return res.json()
-    } catch {
+    } catch (error) {
+        console.error(error)
         alert("Could not create comment")
     }
 }
@@ -33,12 +37,16 @@ export async function upvote(comment) {
             {
                 method: "POST",
                 headers: {
-                    Authorization: user.currentUser.id
+                    Authorization: config.currentUser.id
                 }
             }
         )
+        if (res.status !== 200) {
+            throw new Error()
+        }
         return res.json()
-    } catch {
+    } catch (error) {
+        console.error(error)
         alert("You have already upvoted this comment")
     }
 }
