@@ -19,12 +19,15 @@ model User {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   content   String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   userId    Int
   upvotes   Upvote[]
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  replies   Comment[] @relation("replies")
+  parent    Comment?  @relation("replies", fields: [parentId], references: [id])
+  parentId  Int?
 }
 
 model Upvote {
