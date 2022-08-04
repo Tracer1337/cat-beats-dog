@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
     "outDir": "dist",
     "strict": true,
     "lib": [
@@ -10,5 +9,8 @@
     "typeRoots": [
       "./@types"
     ]
-  }
+  },
+  "include": [
+    "src"
+  ]
 }

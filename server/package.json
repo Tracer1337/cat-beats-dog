@@ -7,7 +7,9 @@
     "seed": "ts-node ./prisma/seed.ts"
   },
   "scripts": {
-    "dev": "ts-node-dev ./src/index.ts"
+    "dev": "ts-node-dev ./src/index.ts",
+    "build": "tsc",
+    "prod": "npx prisma migrate deploy && node ./dist/index.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
